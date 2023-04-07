@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -23,36 +24,29 @@ public class OkHttpHandler extends AsyncTask<String, Void, byte[]> {
     public OkHttpHandler(Context context){
         c = context;
     }
-    private Map<String, String> bodyMapping;
+    private RequestBody bodyJson;
+    public static final MediaType JSON
+            = MediaType.parse("application/json; charset=utf-8");
     private boolean sendWithBody = false;
-    public void addBody(Map<String, String> body){
-        bodyMapping = body;
+    public void addBody(String body){
+        bodyJson = RequestBody.create(JSON,body);
         sendWithBody = true;
     }
     @Override
     protected byte[] doInBackground(String... strings) {
         Request.Builder builder = new Request.Builder();
         builder.url(strings[0]);
-        if(sendWithBody && bodyMapping != null){
-            FormBody.Builder formBodyBuider = new FormBody.Builder();
-            for(String a: bodyMapping.keySet()){
-                formBodyBuider.add(a,bodyMapping.get(a));
-            }
-            RequestBody formBody = formBodyBuider.build();
-            builder.post(formBody);
+        if(sendWithBody && bodyJson != null){
+            builder.post(bodyJson);
+            sendWithBody = false;
+            bodyJson = null;
         }
         Request request = builder.build();
-
         try {
             Response response = client.newCall(request).execute();
             return response.body().bytes();
         } catch (Exception e) {
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(c, "Không thể kết nối đến máy chủ", Toast.LENGTH_SHORT).show();
-                }
-            });
+            MakeToast.make("Keets noi khong thanh cong", c);
         }
         return null;
     }

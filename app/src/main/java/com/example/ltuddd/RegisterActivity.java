@@ -9,8 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ltuddd.Utils.MakeToast;
+import com.example.ltuddd.Utils.ObjectToJson;
 import com.example.ltuddd.Utils.OkHttpHandler;
 import com.example.ltuddd.Utils.URLRequest;
+import com.example.ltuddd.dto.RegisterDto;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -49,21 +52,29 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), validateMessenge, Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Request.Builder builder = new Request.Builder();
                     OkHttpHandler handler = new OkHttpHandler(getApplicationContext());
+                    RegisterDto dto = new RegisterDto();
+                    dto.setUsername(fullname);
+                    dto.setEmail(email);
+                    dto.setPassword(pasword);
+                    dto.setRePassword(rePassword);
+                    String jsonDto = ObjectToJson.toJson(dto);
+                    System.out.println("Json: "+jsonDto);
+                    handler.addBody(jsonDto);
                     byte[] reponse;
 
                     try {
                         reponse = handler.execute(URLRequest.register).get();
+                        System.out.println("response: "+reponse);
 
                         if (reponse != null && reponse.length > 0) {
 
                             String testV=new String(reponse);
                             System.out.println("data: "+testV);
-                            Toast.makeText(getApplicationContext(), "Kết nối thành công ", Toast.LENGTH_SHORT).show();
+                            MakeToast.make("Kết nối thành công ",getApplicationContext());
                         }
                     } catch (Exception e) {
-                        Toast.makeText(getApplicationContext(), "Không thể kết nối đến máy chủ", Toast.LENGTH_SHORT).show();
+                        MakeToast.make("Không thể kết nối đến máy chủ",getApplicationContext());
                     }
                 }
             }

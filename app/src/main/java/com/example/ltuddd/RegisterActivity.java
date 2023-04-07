@@ -15,6 +15,7 @@ import com.example.ltuddd.Utils.OkHttpHandler;
 import com.example.ltuddd.Utils.URLRequest;
 import com.example.ltuddd.dto.RegisterDto;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,22 +57,23 @@ public class RegisterActivity extends AppCompatActivity {
                     dto.setEmail(email);
                     dto.setPassword(pasword);
                     dto.setRePassword(rePassword);
-                    String jsonDto = ObjectJson.toJson(dto);
-                    System.out.println("Json: "+jsonDto);
+                    ObjectJson<RegisterDto> objectJson = new ObjectJson<>(RegisterDto.class);
+                    String jsonDto = objectJson.toJson(dto);
                     handler.addBody(jsonDto);
                     byte[] reponse;
 
                     try {
                         reponse = handler.execute(URLRequest.register).get();
-                        System.out.println("response: "+reponse);
-
                         if (reponse != null && reponse.length > 0) {
-                            RegisterDto registerDto = (RegisterDto) ObjectJson.toObject(new String(reponse),RegisterDto.class);
-                            System.out.println(registerDto);
+                            List<RegisterDto> registerDto = objectJson.toListObject(new String(reponse));
+                            for(int i=0;i<registerDto.size();i++){
+                                System.out.println(registerDto.get(i));
+                            }
                             MakeToast.make("Kết nối thành công ",getApplicationContext());
                         }
                     } catch (Exception e) {
                         MakeToast.make("Không thể kết nối đến máy chủ",getApplicationContext());
+                        e.printStackTrace();
                     }
                 }
             }

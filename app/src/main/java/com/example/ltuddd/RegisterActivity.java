@@ -10,15 +10,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.ltuddd.Utils.MakeToast;
-import com.example.ltuddd.Utils.ObjectToJson;
+import com.example.ltuddd.Utils.ObjectJson;
 import com.example.ltuddd.Utils.OkHttpHandler;
 import com.example.ltuddd.Utils.URLRequest;
 import com.example.ltuddd.dto.RegisterDto;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import okhttp3.Request;
 
 public class RegisterActivity extends AppCompatActivity {
     private String validateMessenge;
@@ -58,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
                     dto.setEmail(email);
                     dto.setPassword(pasword);
                     dto.setRePassword(rePassword);
-                    String jsonDto = ObjectToJson.toJson(dto);
+                    String jsonDto = ObjectJson.toJson(dto);
                     System.out.println("Json: "+jsonDto);
                     handler.addBody(jsonDto);
                     byte[] reponse;
@@ -68,7 +66,6 @@ public class RegisterActivity extends AppCompatActivity {
                         System.out.println("response: "+reponse);
 
                         if (reponse != null && reponse.length > 0) {
-
                             String testV=new String(reponse);
                             System.out.println("data: "+testV);
                             MakeToast.make("Kết nối thành công ",getApplicationContext());

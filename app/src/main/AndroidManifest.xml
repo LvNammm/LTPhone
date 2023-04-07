@@ -19,9 +19,6 @@
             android:exported="false"
             android:theme="@style/Theme.LTUDDD.NoActionBar"/>
         <activity
-            android:name=".SplashActivity"
-            android:exported="true"></activity>
-        <activity
             android:name=".NewTasks"
             android:exported="false" />
         <activity

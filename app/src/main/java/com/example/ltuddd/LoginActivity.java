@@ -8,6 +8,7 @@ import androidx.core.app.NotificationManagerCompat;
 import android.animation.ObjectAnimator;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -20,6 +21,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ltuddd.Utils.Alarm;
+import com.example.ltuddd.Utils.MakeToast;
+import com.example.ltuddd.Utils.Notification;
 import com.example.ltuddd.Utils.OkHttpHandler;
 import com.example.ltuddd.Utils.URLRequest;
 
@@ -38,7 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createNotificationChannel();
+
         setContentView(R.layout.activity_login);
 
         TextView hint_username = findViewById(R.id.text_hint_username);
@@ -60,25 +64,8 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANEL_ID)
-                        .setSmallIcon(R.drawable.icon)
-                        .setContentTitle("thông báo")
-                        .setContentText("Dậy đê ông cháu ơi")
-                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-
-// notificationId is a unique int for each notification that you must define
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    return;
-                }
-                notificationManager.notify(1, builder.build());
+                Notification.create(getApplicationContext(),1,"thông báo","Dây là thông báo",getSystemService(Context.ALARM_SERVICE),false, new Date(),18,50,0);
+                MakeToast.make("Đã tạo thông báo lúc 18h", getApplicationContext());
 //                OkHttpHandler handler = new OkHttpHandler(getApplicationContext());
 //                byte[] image;
 //

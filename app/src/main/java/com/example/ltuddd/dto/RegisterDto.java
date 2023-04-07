@@ -37,4 +37,14 @@ public class RegisterDto {
     public void setRePassword(String rePassword) {
         this.rePassword = rePassword;
     }
+
+    @Override
+    public String toString() {
+        return "RegisterDto{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", rePassword='" + rePassword + '\'' +
+                '}';
+    }
 }

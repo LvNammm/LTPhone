@@ -66,8 +66,8 @@ public class RegisterActivity extends AppCompatActivity {
                         System.out.println("response: "+reponse);
 
                         if (reponse != null && reponse.length > 0) {
-                            String testV=new String(reponse);
-                            System.out.println("data: "+testV);
+                            RegisterDto registerDto = (RegisterDto) ObjectJson.toObject(new String(reponse),RegisterDto.class);
+                            System.out.println(registerDto);
                             MakeToast.make("Kết nối thành công ",getApplicationContext());
                         }
                     } catch (Exception e) {

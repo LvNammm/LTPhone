@@ -32,4 +32,7 @@ public class Notification {
                 AlarmManager.INTERVAL_DAY, pendingIntent);
         }
     }
+    public static void cancel(int code){
+        //cancel alarm pendingIntent
+    }
 }

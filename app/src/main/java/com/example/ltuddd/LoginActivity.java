@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Notification.create(getApplicationContext(),1,"thông báo","Dây là thông báo",getSystemService(Context.ALARM_SERVICE),false, new Date(),18,50,0);
+                Notification.cancel(1);
                 MakeToast.make("Đã tạo thông báo lúc 18h", getApplicationContext());
 //                OkHttpHandler handler = new OkHttpHandler(getApplicationContext());
 //                byte[] image;

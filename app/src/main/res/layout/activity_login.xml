@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity2"
+    tools:context=".LoginActivity"
     android:background="@drawable/login">
 
 
@@ -16,6 +16,7 @@
         android:ems="10"
 
         android:inputType="textPersonName"
+        android:textColor="#D8D8D8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
@@ -27,6 +28,7 @@
         android:layout_height="71dp"
         android:layout_marginTop="116dp"
         android:text="Đăng nhập"
+        android:textColor="#FFFFFF"
         android:textSize="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.451"
@@ -40,6 +42,7 @@
         android:ems="10"
         android:inputType="textPassword"
 
+        android:textColor="#D8D8D8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +55,7 @@
         android:layout_height="33dp"
         android:layout_marginStart="8dp"
         android:text="Tên tài khoản"
+        android:textColor="#80FFFFFF"
         android:textSize="22dp"
         app:layout_constraintBottom_toBottomOf="@+id/username"
         app:layout_constraintStart_toStartOf="@+id/username"
@@ -64,6 +68,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="Mật khẩu"
+        android:textColor="#80FFFFFF"
         android:textSize="22dp"
         app:layout_constraintStart_toStartOf="@+id/password"
         app:layout_constraintTop_toTopOf="@+id/password" />
@@ -78,5 +83,31 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password" />
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="132dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="224dp"
+        android:layout_marginTop="84dp"
+        android:background="@android:color/transparent"
+        android:text="Đăng ký"
+        android:textAllCaps="false"
+        android:textColor="@color/purple_700"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="182dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="96dp"
+        android:text="Chưa có tài khoản ?"
+        android:textColor="#070707"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

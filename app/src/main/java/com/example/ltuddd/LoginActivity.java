@@ -3,19 +3,26 @@ package com.example.ltuddd;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.ltuddd.Utils.OkHttpHandler;
+import com.example.ltuddd.Utils.URLRequest;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-public class MainActivity2 extends AppCompatActivity {
+import okhttp3.Request;
+
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,33 +36,44 @@ public class MainActivity2 extends AppCompatActivity {
         EditText editTextUsername = findViewById(R.id.username);
         EditText editTextPassword = findViewById(R.id.password);
         Button btnLogin = findViewById(R.id.button);
+        Button btnResiter = findViewById(R.id.register);
+        Intent registerActivity = new Intent(this, RegisterActivity.class);
+
+        btnResiter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(registerActivity);
+            }
+        });
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Request.Builder builder = new Request.Builder();
+                OkHttpHandler handler = new OkHttpHandler(getApplicationContext());
+                byte[] image;
+
                 try {
-                    // connnect to database 'testdb'
-                    String url = "jdbc:mysql://localhost:3307/education";
-                    String username = "root";
-                    String pass = "123456";
-//                    String host = "s88d81.cloudnetwork.vn:3306";
-//                    username = "kin82682_group4Edu";
-//                    String dbName = "kin82682_Education";
-//                    String password = "nam689nam986";
-//                    url = "jdbc:mysql://"+host+"/"+dbName+"?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true&useSSL=false&sessionVariables=sql_mode='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION'";
-                    Connection conn = getConnection(url, username, pass);
-                    // crate statement
-                    Statement stmt = conn.createStatement();
-                    // get data from table 'student'
-                    ResultSet rs = stmt.executeQuery("select * from tbl_user");
-                    // show data
-                    while (rs.next()) {
-                        System.out.println(rs.getInt(1) + "  " + rs.getString(2)
-                                + "  " + rs.getString(3));
+                    image = handler.execute(URLRequest.test).get();
+
+                    if (image != null && image.length > 0) {
+
+                        String testV=new String(image);
+                        editTextUsername.setText(testV);
+                        System.out.println("data: "+testV);
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), "Ket noi thanh cong", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
-                    // close connection
-                    conn.close();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+                } catch (Exception e) {
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Không thể kết nối đến máy chủ", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });

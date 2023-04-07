@@ -19,9 +19,6 @@
             android:exported="false"
             android:theme="@style/Theme.LTUDDD.NoActionBar"/>
         <activity
-            android:name=".NewTasks"
-            android:exported="false" />
-        <activity
             android:name=".LoginActivity"
             android:exported="true"
             android:label=""

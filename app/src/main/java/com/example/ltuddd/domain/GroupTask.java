@@ -16,6 +16,14 @@ public class GroupTask  implements Serializable {
     @ColumnInfo(name = "status")
     public Boolean status;
 
+    public GroupTask() {
+    }
+
+    public GroupTask(String name, Boolean status) {
+        this.name = name;
+        this.status = status;
+    }
+
     public int getId() {
         return id;
     }

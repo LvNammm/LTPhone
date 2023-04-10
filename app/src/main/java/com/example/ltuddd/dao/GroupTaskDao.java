@@ -22,7 +22,7 @@ public interface GroupTaskDao {
     @Query("SELECT * FROM group_task where id=:id")
     GroupTask findGroupTask(int id);
 
-    @Query("SELECT * FROM group_task")
+    @Query("SELECT * FROM group_task where status = false or status is null")
     List<GroupTask> getAllGroupTask();
 
     @Delete

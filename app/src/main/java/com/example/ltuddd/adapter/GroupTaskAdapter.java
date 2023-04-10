@@ -18,7 +18,7 @@ import com.example.ltuddd.domain.GroupTask;
 
 import java.util.List;
 
-public class GroupTaskAdapter extends RecyclerView.Adapter{
+public class GroupTaskAdapter extends RecyclerView.Adapter {
     Activity activity;
     List<GroupTask> listGroupTask;
     Context mContext;
@@ -37,17 +37,18 @@ public class GroupTaskAdapter extends RecyclerView.Adapter{
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View viewItem = activity.getLayoutInflater().inflate(R.layout.activity_edit_group_task, parent, false);
+        View viewItem = activity.getLayoutInflater().inflate(R.layout.activitty_group_task_item, parent, false);
         GroupTaskHoldeer holder = new GroupTaskHoldeer(viewItem);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         GroupTaskHoldeer vh = (GroupTaskHoldeer) holder;
-        GroupTask model = listGroupTask.get(position);
-        vh.tv_name.setText(model.name+ "");
 
+        GroupTask model = listGroupTask.get(position);
+
+        vh.tv_name.setText(model.name + "");
         ((GroupTaskHoldeer) holder).relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,16 +62,18 @@ public class GroupTaskAdapter extends RecyclerView.Adapter{
         return listGroupTask.size();
     }
 
-    public class GroupTaskHoldeer extends RecyclerView.ViewHolder{
+    public class GroupTaskHoldeer extends RecyclerView.ViewHolder {
         TextView tv_name;
         LinearLayout relativeLayout;
-        public GroupTaskHoldeer(@NonNull View itemView){
+
+        public GroupTaskHoldeer(View itemView) {
             super(itemView);
             relativeLayout = itemView.findViewById(R.id.layout_item);
             tv_name = itemView.findViewById(R.id.tv_name);
         }
     }
-    private void onClickGoToDetail(GroupTask groupTask){
+
+    private void onClickGoToDetail(GroupTask groupTask) {
         Intent intent = new Intent(mContext, EditGroupTask.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("groupTask", groupTask);

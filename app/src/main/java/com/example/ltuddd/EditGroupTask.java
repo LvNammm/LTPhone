@@ -57,6 +57,7 @@ public class EditGroupTask extends AppCompatActivity implements View.OnClickList
 
         id = groupTask.getId();
     }
+
     private void initView() {
         nameGroupTask = findViewById(R.id.ed_name);
 
@@ -76,7 +77,7 @@ public class EditGroupTask extends AppCompatActivity implements View.OnClickList
         //Validate
         GroupTask groupTask = new GroupTask(name, false);
         db.groupTaskDao().insertGroupTask(groupTask);
-        Toast.makeText(this, "Add new user successfully hehee", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Add new user successfully", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(EditGroupTask.this, EditGroupTask.class));
         getAllDB();
     }

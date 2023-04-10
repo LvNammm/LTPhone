@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/newTaskText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:hint="Tên công việc"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/newTaskTextTime"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newTaskText"
+        android:text="Chọn thời gian hoàn thành" />
+
+    <TimePicker
+        android:id="@+id/simpleTimePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newTaskTextTime"
+        android:timePickerMode="spinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/newTaskTextDate"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/simpleTimePicker"
+        android:text="Chọn ngày hoàn thành" />
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newTaskTextDate"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/textCheckBox"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/datePicker"
+        android:text="Bạn có muốn nhắc lại không ?" />
+
+    <CheckBox
+        android:id="@+id/isRepeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textCheckBox"
+        android:checked="false" />
+
+    <Button
+        android:id="@+id/newTaskButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_below="@+id/isRepeat"
+        android:text="save"
+    />
+
+
+</RelativeLayout>

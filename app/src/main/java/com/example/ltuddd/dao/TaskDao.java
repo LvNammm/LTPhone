@@ -7,10 +7,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.example.ltuddd.domain.GroupTask;
-import com.example.ltuddd.domain.GroupTaskWithTask;
 import com.example.ltuddd.domain.Task;
-import com.example.ltuddd.dto.GroupTaskDto;
 
 import java.util.List;
 
@@ -26,8 +23,8 @@ public interface TaskDao {
     Task findTask(int id);
 
     @Transaction
-    @Query("SELECT * FROM group_task where id=:groupId")
-    public List<GroupTaskWithTask> getUsersWithPlaylists(int groupId);
+    @Query("SELECT * FROM task where task.group_task_id =:groupId")
+    public List<Task> getUsersWithPlaylists(int groupId);
 
     @Query("SELECT * FROM task")
     List<Task> getAllTask();

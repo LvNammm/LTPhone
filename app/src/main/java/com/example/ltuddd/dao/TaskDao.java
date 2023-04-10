@@ -23,10 +23,10 @@ public interface TaskDao {
     Task findTask(int id);
 
     @Transaction
-    @Query("SELECT * FROM task where task.group_task_id =:groupId")
+    @Query("SELECT * FROM task where task.group_task_id =:groupId and (status = false or status is null)")
     public List<Task> getUsersWithPlaylists(int groupId);
 
-    @Query("SELECT * FROM task")
+    @Query("SELECT * FROM task where status = false or status is null")
     List<Task> getAllTask();
 
     @Delete

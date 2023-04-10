@@ -2,6 +2,7 @@ package com.example.ltuddd;
 
 
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,14 +41,50 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
 
     Calendar calendar = Calendar.getInstance();
 
+    Task task = new Task();
 
+    public static boolean isUpdate = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_task);
         db = AppDatabase.getAppDatabase(this);
+
         addOne();
         initView();
+
+        if(isUpdate) {
+            if(-999 == getIntent().getIntExtra("id",-999)) return;
+            task.setId(getIntent().getIntExtra("id", 0));
+
+            if(-999 == getIntent().getIntExtra("groupTaskId",-999)) return;
+            task.setId(getIntent().getIntExtra("groupTaskId", 0));
+
+
+            name.setText(getIntent().getStringExtra("task"));
+            if(-999L != getIntent().getLongExtra("date",-999L)){
+                Long timeInMillis = getIntent().getLongExtra("date", -1L);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(timeInMillis);
+
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                time.setHour(hour);
+                time.setMinute(minute);
+
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(this,
+                        (view, year1, monthOfYear, dayOfMonth1) -> {
+                        }, year, month, dayOfMonth);
+            }
+
+            isRepeat.setChecked(getIntent().getBooleanExtra("isRepeat", false));
+
+        }
+
     }
     public void addOne(){
         GroupTask groupTask = new GroupTask("phong dep trai", false);
@@ -76,7 +113,9 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
         String nameTask = name.getText().toString();
         Boolean isRepeatTask = isRepeat.isChecked();
         //Validate
-        Task task = new Task(nameTask, false, calendar.getTimeInMillis(), isRepeatTask, 1);
+        if(!isUpdate){
+            task = new Task(nameTask, false, calendar.getTimeInMillis(), isRepeatTask, 1);
+        }
         db.taskDao().insertTask(task);
         Toast.makeText(this, "Add new user successfully", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(AddNewTask.this, AddNewTask.class));
@@ -87,6 +126,9 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
         for (Task task : list) {
             Log.d("TAG", "id: "+task.id + " - Name: " +task.task +"Status: "+ task.status );
         }
+    }
+    public static AddNewTask newInstance(){
+        return new AddNewTask();
     }
     @Override
     public void onClick(View view) {
@@ -102,4 +144,5 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
 //                break;
 //        }
     }
+
 }

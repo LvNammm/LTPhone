@@ -1,9 +1,12 @@
 package com.example.ltuddd;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -15,7 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class ListTask extends AppCompatActivity {
+public class ListTask extends AppCompatActivity implements DialogCloseListener{
 
     private AppDatabase db;
     private RecyclerView tasksRecyclerView;
@@ -34,8 +37,12 @@ public class ListTask extends AppCompatActivity {
         tasksRecyclerView = findViewById(R.id.tasksRecyclerView);
         tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tasksAdapter = new ToDoAdapter(taskList,ListTask.this, db);
+        tasksAdapter.ReloadData(taskList);
         tasksRecyclerView.setAdapter(tasksAdapter);
 
+        ItemTouchHelper itemTouchHelper = new
+                ItemTouchHelper(new RecyclerItemTouchHelper(tasksAdapter, getApplicationContext()));
+        itemTouchHelper.attachToRecyclerView(tasksRecyclerView);
 
         fab = findViewById(R.id.fab);
 
@@ -43,11 +50,21 @@ public class ListTask extends AppCompatActivity {
         Collections.reverse(taskList);
         tasksAdapter.setTasks(taskList);
 
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AddNewTask.newInstance().show(getSupportFragmentManager(), AddNewTask.TAG);
-//            }
-//        });
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListTask.this, AddNewTask.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+
+    @Override
+    public void handleDiglogClose(DialogInterface dialog) {
+        taskList = db.taskDao().getAllTask();
+        Collections.reverse(taskList);
+        tasksAdapter.setTasks(taskList);
+        tasksAdapter.notifyDataSetChanged();
     }
 }

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 
 import com.example.ltuddd.adapter.ToDoAdapter;
@@ -29,7 +30,7 @@ public class ListTask extends AppCompatActivity implements DialogCloseListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_list_task);
+        setContentView(R.layout.app_bar_group_task);
 
         Objects.requireNonNull(getSupportActionBar()).hide();
         db = AppDatabase.getAppDatabase(this);
@@ -66,5 +67,11 @@ public class ListTask extends AppCompatActivity implements DialogCloseListener{
         Collections.reverse(taskList);
         tasksAdapter.setTasks(taskList);
         tasksAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.group_task, menu);
+        return true;
     }
 }

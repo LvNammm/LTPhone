@@ -57,7 +57,6 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.new_task);
         db = AppDatabase.getAppDatabase(this);
 
-        addOne();
         initView();
 
         if(isUpdate) {
@@ -93,10 +92,7 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
         }
 
     }
-    public void addOne(){
-        GroupTask groupTask = new GroupTask("phong dep trai", false);
-        db.groupTaskDao().insertGroupTask(groupTask);
-    }
+
     private void initView() {
         name = findViewById(R.id.newTaskText);
         date = findViewById(R.id.datePicker);

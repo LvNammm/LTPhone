@@ -56,7 +56,7 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_task);
         db = AppDatabase.getAppDatabase(this);
-
+        saveOne();
         initView();
 
         if(isUpdate) {
@@ -92,7 +92,14 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
         }
 
     }
+    private void saveOne() {
 
+        //Validate
+        GroupTask groupTask = new GroupTask("Phong Dep Trai Sieu cap", false);
+        db.groupTaskDao().insertGroupTask(groupTask);
+        Toast.makeText(this, "Add new user successfully", Toast.LENGTH_SHORT).show();
+
+    }
     private void initView() {
         name = findViewById(R.id.newTaskText);
         date = findViewById(R.id.datePicker);

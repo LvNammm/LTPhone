@@ -36,19 +36,17 @@ public class Home extends AppCompatActivity {
 
         SubMenu subMenu = menuItem.getSubMenu();
 
-        int itemId = View.generateViewId();
+
         subMenu.add(0, 0, Menu.NONE, "All lists");
 
         int i = 1;
         if(groupTasks != null){
             for (GroupTask groupTask : groupTasks){
-//                itemId = View.generateViewId();
-                subMenu.add(i, 0, Menu.NONE, groupTask.getName());
+                subMenu.add(i, groupTask.getId(), Menu.NONE, groupTask.getName());
                 i ++;
             }
         }
-        itemId = View.generateViewId();
-        subMenu.add(i, itemId, Menu.NONE, "Finished");
+        subMenu.add(i, -1, Menu.NONE, "Finished");
         return super.onCreateOptionsMenu(menu);
     }
 

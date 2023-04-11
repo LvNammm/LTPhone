@@ -11,10 +11,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -42,12 +46,16 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
     TimePicker time;
     DatePicker date;
     Button btnAdd;
-    private int id;
     CheckBox isRepeat;
 
     Calendar calendar = Calendar.getInstance();
 
     Task task = new Task();
+
+    private List<GroupTask> groupTasks;
+    TextView selection;
+
+    int idGroupTask;
 
     public static boolean isUpdate = false;
     @Override
@@ -56,15 +64,16 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_task);
         db = AppDatabase.getAppDatabase(this);
-        saveOne();
+
+
         initView();
 
         if(isUpdate) {
             if(-999 == getIntent().getIntExtra("id",-999)) return;
             task.setId(getIntent().getIntExtra("id", 0));
 
-            if(-999 == getIntent().getIntExtra("groupTaskId",-999)) return;
-            task.setGroupTaskId(getIntent().getIntExtra("groupTaskId", 0));
+//            if(-999 == getIntent().getIntExtra("groupTaskId",-999)) return;
+//            task.setGroupTaskId(getIntent().getIntExtra("groupTaskId", 0));
 
 
             name.setText(getIntent().getStringExtra("task"));
@@ -91,15 +100,37 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
 
         }
 
-    }
-    private void saveOne() {
+        groupTasks = db.groupTaskDao().getAllGroupTask();
 
-        //Validate
-        GroupTask groupTask = new GroupTask("Phong Dep Trai Sieu cap", false);
-        db.groupTaskDao().insertGroupTask(groupTask);
-        Toast.makeText(this, "Add new user successfully", Toast.LENGTH_SHORT).show();
+        selection = (TextView) findViewById(R.id.selection);
 
+
+        Spinner spin = (Spinner) findViewById(R.id.spinner1);
+
+        ArrayAdapter<GroupTask> adapter = new ArrayAdapter<GroupTask>
+                (
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        groupTasks
+                );
+
+        adapter.setDropDownViewResource
+                (android.R.layout.simple_list_item_single_choice);
+        spin.setAdapter(adapter);
+        spin.setOnItemSelectedListener(new MyProcessEvent());
     }
+    public class MyProcessEvent implements AdapterView.OnItemSelectedListener {
+        public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+            GroupTask selectedGroupTask = groupTasks.get(arg2);
+            idGroupTask = selectedGroupTask.getId();
+            selection.setText(selectedGroupTask.getName());
+        }
+
+        public void onNothingSelected(AdapterView<?> arg0) {
+            selection.setText("");
+        }
+    }
+
     private void initView() {
         name = findViewById(R.id.newTaskText);
         date = findViewById(R.id.datePicker);
@@ -125,14 +156,14 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
         System.out.println(calendar.getTime());
         //Validate
         if(!isUpdate){
-            task = new Task(nameTask, false, calendar.getTimeInMillis(), isRepeatTask, 1);
+            task = new Task(nameTask, false, calendar.getTimeInMillis(), isRepeatTask, idGroupTask);
             db.taskDao().insertTask(task);
             System.out.println("insert");
         }
         else {
             task.task = nameTask;
             task.date = calendar.getTimeInMillis();
-            task.setGroupTaskId(1);
+            task.setGroupTaskId(idGroupTask);
             task.setIsRepeat(isRepeatTask);
             task.status = false;
             System.out.println("update");

@@ -84,7 +84,6 @@ public class LoginActivity extends AppCompatActivity {
                 calendar.set(2023, LocalDateTime.now().getMonthValue()-1, LocalDateTime.now().getDayOfMonth(),LocalDateTime.now().getHour(),LocalDateTime.now().getMinute());
                 MakeToast.make(String.valueOf(new Date().getMonth()), getApplicationContext());
                 Notification.create(getApplicationContext(), 1, "thông báo", "Dây là thông báo", getSystemService(Context.ALARM_SERVICE), false, calendar);
-                Notification.cancel(1);
 //                System.out.println(LocalDateTime.now().getDayOfMonth());
 //                Intent intent = new Intent(getApplicationContext(), NotificationService.class);
 //                startService(intent);

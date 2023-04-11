@@ -28,7 +28,10 @@ public class Notification  {
                 AlarmManager.INTERVAL_DAY, pendingIntent);
         }
     }
-    public static void cancel(int code){
-        //cancel alarm pendingIntent
+    public static void cancel(int id, Context c, Object systemService){
+        AlarmManager alarmManager = (AlarmManager) systemService;
+        Intent intent = new Intent(c, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(c, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(pendingIntent);
     }
 }

@@ -125,11 +125,12 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
             task = new Task(nameTask, false, calendar.getTimeInMillis(), isRepeatTask, 1);
         }
         db.taskDao().insertTask(task);
-        task = db.taskDao().getTaskByTime(task.date).get(0);
-        GroupTask groupTask = db.groupTaskDao().findGroupTask(task.getGroupTaskId());
-        System.out.println(task);
-        calendar.setTimeInMillis(task.getDate());
-        Notification.create(getApplicationContext(),task.getId(),groupTask.getName(),task.getTask(),getSystemService(Context.ALARM_SERVICE),task.isRepeat,calendar);
+            task = db.taskDao().getTaskByTime(task.date).get(0);
+            GroupTask groupTask = db.groupTaskDao().findGroupTask(task.getGroupTaskId());
+            System.out.println(task);
+            calendar.setTimeInMillis(task.getDate());
+            Notification.create(getApplicationContext(),task.getId(),groupTask.getName(),task.getTask(),getSystemService(Context.ALARM_SERVICE),task.isRepeat,calendar);
+            Notification.cancel(task.getId(),getApplicationContext(),getSystemService(Context.ALARM_SERVICE));
         Toast.makeText(this, "Add new user successfully", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(AddNewTask.this, AddNewTask.class));
         getAllDB();

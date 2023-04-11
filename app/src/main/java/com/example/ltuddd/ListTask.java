@@ -65,11 +65,19 @@ public class ListTask extends AppCompatActivity implements DialogCloseListener{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListTask.this, AddNewTask.class);
-                startActivity(intent);
+                if(db.groupTaskDao().getAllGroupTask() == null || db.groupTaskDao().getAllGroupTask().size() <= 0) {
+                    Toast.makeText(ListTask.this, "Bạn chưa có GroupTask nào, hãy tạo GroupTask trước nhé !!!", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ListTask.this, EditGroupTask.class);
+                    startActivity(intent);
+                }else {
+                    Intent intent = new Intent(ListTask.this, AddNewTask.class);
+                    startActivity(intent);
+                }
+
             }
         });
     }
+
 
 
     @Override

@@ -218,4 +218,9 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
         }
     }
 
+    public void onBackPressed() {
+        Intent intent = new Intent(AddNewTask.this, ListTask.class);
+        startActivity(intent);
+    }
+
 }

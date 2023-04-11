@@ -126,22 +126,32 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
         //Validate
         if(!isUpdate){
             task = new Task(nameTask, false, calendar.getTimeInMillis(), isRepeatTask, 1);
+            db.taskDao().insertTask(task);
+            System.out.println("insert");
         }
-        db.taskDao().insertTask(task);
+        else {
+            task.task = nameTask;
+            task.date = calendar.getTimeInMillis();
+            task.setGroupTaskId(1);
+            task.setIsRepeat(isRepeatTask);
+            task.status = false;
+            System.out.println("update");
+            db.taskDao().updateTask(task);
+        }
+        getAllDB();
+        System.out.println("task:"+task);
             task = db.taskDao().getTaskByTime(task.date).get(0);
             GroupTask groupTask = db.groupTaskDao().findGroupTask(task.getGroupTaskId());
             System.out.println(task);
             calendar.setTimeInMillis(task.getDate());
             Notification.create(getApplicationContext(),task.getId(),groupTask.getName(),task.getTask(),getSystemService(Context.ALARM_SERVICE),task.isRepeat,calendar);
-            Notification.cancel(task.getId(),getApplicationContext(),getSystemService(Context.ALARM_SERVICE));
         Toast.makeText(this, "Add new user successfully", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(AddNewTask.this, AddNewTask.class));
-        getAllDB();
+        startActivity(new Intent(getApplicationContext(), ListTask.class));
     }
     void getAllDB() {
         List<Task> list = db.taskDao().getAllTask();
         for (Task task : list) {
-            Log.d("TAG", "id: "+task.id + " - Name: " +task.task +"Status: "+ task.status +": date - "+ new Date(task.date) );
+            Log.d("TAG", task.toString() );
         }
     }
     public static AddNewTask newInstance(){

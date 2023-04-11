@@ -32,7 +32,7 @@ public class ListTask extends AppCompatActivity implements DialogCloseListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_bar_group_task);
 
-        Objects.requireNonNull(getSupportActionBar()).hide();
+//        Objects.requireNonNull(getSupportActionBar()).hide();
         db = AppDatabase.getAppDatabase(this);
 
         tasksRecyclerView = findViewById(R.id.tasksRecyclerView);

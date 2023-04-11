@@ -94,9 +94,7 @@ public class ListTask extends AppCompatActivity implements DialogCloseListener{
         getMenuInflater().inflate(R.menu.group_task, menu);
 
         MenuItem menuItem = menu.findItem(R.id.action_overflow);
-
         SubMenu subMenu = menuItem.getSubMenu();
-
 
         subMenu.add(0, 0, Menu.NONE, "All lists").setIcon(android.R.drawable.ic_menu_edit);
 
@@ -117,13 +115,21 @@ public class ListTask extends AppCompatActivity implements DialogCloseListener{
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
+        if(id == R.id.action_settings){
+            Intent intent = new Intent(ListTask.this, ChooseRingStone.class);
+            startActivity(intent);
+        }
+
+        if(id == R.id.action_login){
+            System.out.println("màn đăng nhập");
+        }
+
         taskList = getListTasksByGroup(id);
         System.out.println(taskList);
         if(taskList != null){
             Collections.reverse(taskList);
             tasksAdapter.setTasks(taskList);
         }
-
 
         TextView textView = findViewById(R.id.tasksText);
         if (!"".equals(nameGroupTask)) {

@@ -5,6 +5,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.ltuddd.domain.Task;
 import com.example.ltuddd.receiver.NotificationReceiver;
 
 import java.util.Calendar;
@@ -13,8 +14,8 @@ import java.util.Date;
 public class Notification  {
     public static void create(Context c,int code, String title, String text, Object systemService, boolean repeat,Calendar calendar){
         Intent intent = new Intent(c, NotificationReceiver.class);
-        intent.putExtra(Contain.title,"time");
-        intent.putExtra(Contain.text, calendar.getTime().toString());
+        intent.putExtra(Contain.title,title);
+        intent.putExtra(Contain.text, text);
         intent.putExtra("id",code);
         System.out.println("Time du dinh thong bao:"+calendar.getTime());
         PendingIntent pendingIntent = PendingIntent.getBroadcast(c, code, intent, PendingIntent.FLAG_UPDATE_CURRENT);

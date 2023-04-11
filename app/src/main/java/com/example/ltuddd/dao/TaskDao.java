@@ -29,6 +29,9 @@ public interface TaskDao {
     @Query("SELECT * FROM task where status = false or status is null")
     List<Task> getAllTask();
 
+    @Query("SELECT * FROM task where (status = false or status is null) and date = :time")
+    List<Task> getTaskByTime(Long time);
+
     @Delete
     void deleteTask(Task task);
 }

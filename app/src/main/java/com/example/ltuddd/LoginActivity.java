@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        createNotificationChannel();
         super.onCreate(savedInstanceState);
         System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
         System.out.println("abc: "+ getIntent().getStringExtra(Contain.stop));
@@ -89,26 +89,26 @@ public class LoginActivity extends AppCompatActivity {
 //                Intent intent = new Intent(getApplicationContext(), NotificationService.class);
 //                startService(intent);
 //                MakeToast.make("Đã tạo thông báo lúc 18h", getApplicationContext());
-//                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANEL_ID)
-//                        .setSmallIcon(R.drawable.icon)
-//                        .setContentTitle("abc4")
-//                        .setContentText("123s")
-//                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-//
-//                // Hiển thị thông báo
-//                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
-//                if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-//                    // TODO: Consider calling
-//                    //    ActivityCompat#requestPermissions
-//                    // here to request the missing permissions, and then overriding
-//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//                    //                                          int[] grantResults)
-//                    // to handle the case where the user grants the permission. See the documentation
-//                    // for ActivityCompat#requestPermissions for more details.
-//                    return;
-//                }
-//                notificationManager.notify(10, builder.build());
-//                System.out.println("OKKK");
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANEL_ID)
+                        .setSmallIcon(R.drawable.baseline_check)
+                        .setContentTitle("abc4")
+                        .setContentText("123s")
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+                // Hiển thị thông báo
+                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                notificationManager.notify(10, builder.build());
+                System.out.println("OKKK");
 //                OkHttpHandler handler = new OkHttpHandler(getApplicationContext());
 //                byte[] image;
 //

@@ -3,7 +3,11 @@ package com.example.ltuddd;
 
 
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ltuddd.Utils.Notification;
 import com.example.ltuddd.adapter.GroupTaskAdapter;
 import com.example.ltuddd.domain.GroupTask;
 import com.example.ltuddd.domain.Task;
@@ -31,6 +36,7 @@ import java.util.List;
 
 public class AddNewTask extends AppCompatActivity implements View.OnClickListener {
 
+    private final String CHANEL_ID = "chanel_id";
     AppDatabase db;
     EditText name;
     TimePicker time;
@@ -46,6 +52,7 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
     public static boolean isUpdate = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        createNotificationChannel();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_task);
         db = AppDatabase.getAppDatabase(this);
@@ -109,14 +116,20 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
         });
     }
     private void saveUser() throws ParseException {
-        calendar.set(date.getYear(), date.getMonth()+1, date.getDayOfMonth(), time.getHour(), time.getMinute());
+        calendar.set(date.getYear(), date.getMonth(), date.getDayOfMonth(), time.getHour(), time.getMinute());
         String nameTask = name.getText().toString();
         Boolean isRepeatTask = isRepeat.isChecked();
+        System.out.println(calendar.getTime());
         //Validate
         if(!isUpdate){
             task = new Task(nameTask, false, calendar.getTimeInMillis(), isRepeatTask, 1);
         }
         db.taskDao().insertTask(task);
+        task = db.taskDao().getTaskByTime(task.date).get(0);
+        GroupTask groupTask = db.groupTaskDao().findGroupTask(task.getGroupTaskId());
+        System.out.println(task);
+        calendar.setTimeInMillis(task.getDate());
+        Notification.create(getApplicationContext(),task.getId(),groupTask.getName(),task.getTask(),getSystemService(Context.ALARM_SERVICE),task.isRepeat,calendar);
         Toast.makeText(this, "Add new user successfully", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(AddNewTask.this, AddNewTask.class));
         getAllDB();
@@ -124,7 +137,7 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
     void getAllDB() {
         List<Task> list = db.taskDao().getAllTask();
         for (Task task : list) {
-            Log.d("TAG", "id: "+task.id + " - Name: " +task.task +"Status: "+ task.status );
+            Log.d("TAG", "id: "+task.id + " - Name: " +task.task +"Status: "+ task.status +": date - "+ new Date(task.date) );
         }
     }
     public static AddNewTask newInstance(){
@@ -143,6 +156,21 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
 //            default:
 //                break;
 //        }
+    }
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "testApp";
+            String description = "decrep testApp";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 
 }

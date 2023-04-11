@@ -99,4 +99,16 @@ public class Task implements Serializable {
     public void setGroupTaskId(int groupTaskId) {
         GroupTaskId = groupTaskId;
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", task='" + task + '\'' +
+                ", status=" + status +
+                ", date=" + date +
+                ", isRepeat=" + isRepeat +
+                ", GroupTaskId=" + GroupTaskId +
+                '}';
+    }
 }

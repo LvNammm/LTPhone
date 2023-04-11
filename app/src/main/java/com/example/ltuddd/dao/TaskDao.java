@@ -24,7 +24,7 @@ public interface TaskDao {
 
     @Transaction
     @Query("SELECT * FROM task where task.group_task_id =:groupId and (status = false or status is null)")
-    public List<Task> getUsersWithPlaylists(int groupId);
+    public List<Task> getTaskByGroupId(int groupId);
 
     @Query("SELECT * FROM task where status = false or status is null")
     List<Task> getAllTask();
@@ -32,6 +32,8 @@ public interface TaskDao {
     @Query("SELECT * FROM task where (status = false or status is null) and date = :time")
     List<Task> getTaskByTime(Long time);
 
+    @Query("SELECT * FROM task where status = true or status = 1")
+    List<Task> getTaskFinished();
     @Delete
     void deleteTask(Task task);
 }

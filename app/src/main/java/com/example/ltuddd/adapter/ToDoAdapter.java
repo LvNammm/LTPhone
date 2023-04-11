@@ -93,7 +93,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
 
 
     public void editItem(int position) {
-        Task item = todoList.get(position);
+        Task item = todoList.get(position-1);
 
         isUpdate = true;
         Intent intent = new Intent(context, AddNewTask.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);;

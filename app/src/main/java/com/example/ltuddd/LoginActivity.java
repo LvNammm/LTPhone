@@ -8,40 +8,48 @@ import androidx.core.app.NotificationManagerCompat;
 import android.animation.ObjectAnimator;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.ltuddd.Utils.Alarm;
+import com.example.ltuddd.Utils.Contain;
 import com.example.ltuddd.Utils.MakeToast;
 import com.example.ltuddd.Utils.Notification;
-import com.example.ltuddd.Utils.OkHttpHandler;
-import com.example.ltuddd.Utils.URLRequest;
+import com.example.ltuddd.receiver.NotificationReceiver;
+import com.example.ltuddd.receiver.NotificationService;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
-
-import okhttp3.Request;
+import java.util.TimeZone;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private final String CHANEL_ID = "loginActivity";
+    private final String CHANEL_ID = "chanel_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+        System.out.println("abc: "+ getIntent().getStringExtra(Contain.stop));
+        if(getIntent().getStringExtra(Contain.stop)!= null && !getIntent().getStringExtra(Contain.stop).isEmpty()){
+            Contain.stopMediaPlayer();
+            System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+            return;
+        }
+
+
 
         setContentView(R.layout.activity_login);
 
@@ -53,8 +61,15 @@ public class LoginActivity extends AppCompatActivity {
         EditText editTextPassword = findViewById(R.id.password);
         Button btnLogin = findViewById(R.id.button);
         Button btnResiter = findViewById(R.id.register);
+        Button btnRt = findViewById(R.id.button2);
         Intent registerActivity = new Intent(this, RegisterActivity.class);
-
+        Intent rtIntent = new Intent(this,ChooseRingStone.class);
+        btnRt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(rtIntent);
+            }
+        });
         btnResiter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,9 +79,36 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Notification.create(getApplicationContext(),1,"thông báo","Dây là thông báo",getSystemService(Context.ALARM_SERVICE),false, new Date(),18,50,0);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeZone(TimeZone.getDefault());
+                calendar.set(2023, LocalDateTime.now().getMonthValue()-1, LocalDateTime.now().getDayOfMonth(),LocalDateTime.now().getHour(),LocalDateTime.now().getMinute());
+                MakeToast.make(String.valueOf(new Date().getMonth()), getApplicationContext());
+                Notification.create(getApplicationContext(), 1, "thông báo", "Dây là thông báo", getSystemService(Context.ALARM_SERVICE), false, calendar);
                 Notification.cancel(1);
-                MakeToast.make("Đã tạo thông báo lúc 18h", getApplicationContext());
+//                System.out.println(LocalDateTime.now().getDayOfMonth());
+//                Intent intent = new Intent(getApplicationContext(), NotificationService.class);
+//                startService(intent);
+//                MakeToast.make("Đã tạo thông báo lúc 18h", getApplicationContext());
+//                NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANEL_ID)
+//                        .setSmallIcon(R.drawable.icon)
+//                        .setContentTitle("abc4")
+//                        .setContentText("123s")
+//                        .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+//
+//                // Hiển thị thông báo
+//                NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getApplicationContext());
+//                if (ActivityCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+//                    // TODO: Consider calling
+//                    //    ActivityCompat#requestPermissions
+//                    // here to request the missing permissions, and then overriding
+//                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//                    //                                          int[] grantResults)
+//                    // to handle the case where the user grants the permission. See the documentation
+//                    // for ActivityCompat#requestPermissions for more details.
+//                    return;
+//                }
+//                notificationManager.notify(10, builder.build());
+//                System.out.println("OKKK");
 //                OkHttpHandler handler = new OkHttpHandler(getApplicationContext());
 //                byte[] image;
 //

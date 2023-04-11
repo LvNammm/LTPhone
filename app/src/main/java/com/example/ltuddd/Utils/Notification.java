@@ -10,25 +10,20 @@ import com.example.ltuddd.receiver.NotificationReceiver;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Notification {
-    public static void create(Context c,int code, String title, String text, Object systemService, boolean repeat, Date date, Integer hour, Integer minute, Integer second){
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, hour);
-        calendar.set(Calendar.MINUTE, minute);
-        calendar.set(Calendar.SECOND, second);
-
+public class Notification  {
+    public static void create(Context c,int code, String title, String text, Object systemService, boolean repeat,Calendar calendar){
         Intent intent = new Intent(c, NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(c, code, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        intent.putExtra("title",title);
-        intent.putExtra("text", text);
+        intent.putExtra(Contain.title,"time");
+        intent.putExtra(Contain.text, calendar.getTime().toString());
         intent.putExtra("id",code);
+        System.out.println("Time du dinh thong bao:"+calendar.getTime());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(c, code, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager alarmManager = (AlarmManager) systemService;
         if(!repeat){
-            Long time = date.getTime();
-            alarmManager.set(AlarmManager.RTC_WAKEUP, time, pendingIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
         }
         else {
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+        alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME,calendar.getTimeInMillis(),
                 AlarmManager.INTERVAL_DAY, pendingIntent);
         }
     }

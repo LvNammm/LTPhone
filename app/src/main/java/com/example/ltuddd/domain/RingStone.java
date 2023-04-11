@@ -8,7 +8,7 @@ public class RingStone {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
-    private int uri;
+    private String url;
 
     private int idRes;
 
@@ -28,12 +28,12 @@ public class RingStone {
         this.name = name;
     }
 
-    public int getUri() {
-        return uri;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUri(int uri) {
-        this.uri = uri;
+    public void setUrl(String uri) {
+        this.url = uri;
     }
 
     public int getIdRes() {
@@ -47,9 +47,9 @@ public class RingStone {
     public RingStone() {
     }
 
-    public RingStone(String name, int uri, int idRes) {
+    public RingStone(String name, String uri, int idRes) {
         this.name = name;
-        this.uri = uri;
+        this.url = uri;
         this.idRes = idRes;
     }
 }

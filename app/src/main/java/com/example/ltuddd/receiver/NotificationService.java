@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaActionSound;
@@ -25,6 +26,7 @@ import com.example.ltuddd.R;
 import com.example.ltuddd.Utils.Contain;
 import com.example.ltuddd.Utils.MediaSeriable;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -51,8 +53,24 @@ public class NotificationService extends Service {
         }
         notificationManager.notify(id, builder.build());
         int resID= R.raw.abc;
-        Contain.mediaPlayer = MediaPlayer.create(getApplicationContext(),resID);
-        Contain.mediaPlayer.start();
+        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+// Lấy ra giá trị String từ SharedPreferences
+        String stringValue = sharedPreferences.getString(Contain.keySavePathRingStone,Contain.valueStrDefault);
+        if(stringValue.equals(Contain.valueStrDefault)){
+            Contain.mediaPlayer = MediaPlayer.create(getApplicationContext(),resID);
+            Contain.mediaPlayer.start();
+        }
+        else {
+            Contain.mediaPlayer = new MediaPlayer();
+            try {
+                Contain.mediaPlayer.setDataSource(stringValue);
+                Contain.mediaPlayer.prepare();
+                Contain.mediaPlayer.start();
+            } catch (IOException e) {
+                Contain.mediaPlayer = MediaPlayer.create(getApplicationContext(),resID);
+                Contain.mediaPlayer.start();
+            }
+        }
         CountDownTimer timer = new CountDownTimer(10000, 1000) {
             int i =1;
             @Override

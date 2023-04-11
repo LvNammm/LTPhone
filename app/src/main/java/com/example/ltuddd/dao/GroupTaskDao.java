@@ -14,7 +14,7 @@ import java.util.List;
 @Dao
 public interface GroupTaskDao {
     @Insert
-    void insertGroupTask(GroupTask groupTask);
+    long insertGroupTask(GroupTask groupTask);
 
     @Update
     void updateGroupTask(GroupTask groupTask);

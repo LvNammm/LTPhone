@@ -32,7 +32,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
 
     private static AppDatabase db2;
 
-    private Context context;
+    private static Context context;
 
     public ToDoAdapter(List<Task> todoList, ListTask activity, AppDatabase db) {
         this.todoList = todoList;
@@ -96,7 +96,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
         Task item = todoList.get(position);
 
         isUpdate = true;
-        Intent intent = new Intent(context, AddNewTask.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);;
+        Intent intent = new Intent(context, AddNewTask.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("id", item.getId());
         intent.putExtra("groupTaskId", item.getGroupTaskId());
         intent.putExtra("task", item.getTask());
@@ -121,6 +121,8 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
                         Task t = todoList.get(position);
                         t.setStatus(isChecked);
                         db2.taskDao().updateTask(t);
+                        Intent intent = new Intent(context, ListTask.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);;
+                        context.startActivity(intent);
                     }
                 }
             });

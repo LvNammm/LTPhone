@@ -141,4 +141,10 @@ public class EditGroupTask extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(EditGroupTask.this, ListTask.class);
+        startActivity(intent);
+    }
 }

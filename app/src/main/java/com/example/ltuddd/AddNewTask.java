@@ -64,7 +64,7 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
             task.setId(getIntent().getIntExtra("id", 0));
 
             if(-999 == getIntent().getIntExtra("groupTaskId",-999)) return;
-            task.setId(getIntent().getIntExtra("groupTaskId", 0));
+            task.setGroupTaskId(getIntent().getIntExtra("groupTaskId", 0));
 
 
             name.setText(getIntent().getStringExtra("task"));

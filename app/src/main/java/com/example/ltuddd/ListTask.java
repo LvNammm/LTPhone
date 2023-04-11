@@ -30,7 +30,7 @@ public class ListTask extends AppCompatActivity implements DialogCloseListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.app_bar_group_task);
+        setContentView(R.layout.activity_list_task);
 
 //        Objects.requireNonNull(getSupportActionBar()).hide();
         db = AppDatabase.getAppDatabase(this);
@@ -72,6 +72,6 @@ public class ListTask extends AppCompatActivity implements DialogCloseListener{
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.group_task, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 }

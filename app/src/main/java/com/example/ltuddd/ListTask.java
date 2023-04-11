@@ -27,6 +27,7 @@ import java.util.Objects;
 
 public class ListTask extends AppCompatActivity implements DialogCloseListener{
 
+
     private AppDatabase db;
     private RecyclerView tasksRecyclerView;
     private ToDoAdapter tasksAdapter;

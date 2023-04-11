@@ -14,7 +14,7 @@ import com.example.ltuddd.R;
 
 public class NotificationReceiver extends BroadcastReceiver {
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, Intent intent ) {
         String title = intent.getStringExtra("title");
         String text = intent.getStringExtra("text");
         int id = intent.getIntExtra("id",1);

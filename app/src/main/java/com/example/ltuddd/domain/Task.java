@@ -18,7 +18,7 @@ import androidx.room.TypeConverters;
         @ForeignKey(
                 entity = GroupTask.class,
                 parentColumns = {"id"},
-                childColumns = {"id"},
+                childColumns = {"group_task_id"},
                 onDelete = ForeignKey.CASCADE,
                 onUpdate = ForeignKey.CASCADE
         )})
@@ -35,8 +35,8 @@ public class Task implements Serializable {
     @ColumnInfo(name = "isrepeat")
     public Boolean isRepeat;
 
-    @ColumnInfo(name = "group_task_id", index = true)
-    int GroupTaskId;
+    @ColumnInfo(name = "group_task_id")
+    int groupTaskId;
 
     public Task() {
     }
@@ -46,7 +46,7 @@ public class Task implements Serializable {
         this.status = status;
         this.date = date;
         this.isRepeat = isRepeat;
-        GroupTaskId = groupTaskId;
+        this.groupTaskId = groupTaskId;
     }
 
 
@@ -93,11 +93,11 @@ public class Task implements Serializable {
     }
 
     public int getGroupTaskId() {
-        return GroupTaskId;
+        return this.groupTaskId;
     }
 
     public void setGroupTaskId(int groupTaskId) {
-        GroupTaskId = groupTaskId;
+        this.groupTaskId = groupTaskId;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class Task implements Serializable {
                 ", status=" + status +
                 ", date=" + date +
                 ", isRepeat=" + isRepeat +
-                ", GroupTaskId=" + GroupTaskId +
+                ", GroupTaskId=" + this.groupTaskId +
                 '}';
     }
 }

@@ -157,6 +157,7 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
         //Validate
         if(!isUpdate){
             task = new Task(nameTask, false, calendar.getTimeInMillis(), isRepeatTask, idGroupTask);
+            System.out.println("trước lưu: "+task);
             db.taskDao().insertTask(task);
             System.out.println("insert");
         }
@@ -170,6 +171,7 @@ public class AddNewTask extends AppCompatActivity implements View.OnClickListene
             db.taskDao().updateTask(task);
         }
         getAllDB();
+
         System.out.println("task:"+task);
             task = db.taskDao().getTaskByTime(task.date).get(0);
             GroupTask groupTask = db.groupTaskDao().findGroupTask(task.getGroupTaskId());
